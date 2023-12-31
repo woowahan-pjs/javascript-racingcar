@@ -25,6 +25,10 @@ class Car {
     }
   }
 
+  get name() {
+    return this.#name;
+  }
+
   get position() {
     return this.#position;
   }
