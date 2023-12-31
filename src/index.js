@@ -10,11 +10,27 @@ const rl = readline.createInterface({ input, output });
     (answer) => {
       const cars = createCars(answer);
       console.log(cars.map((it) => it.name));
-      rl.close();
+      askAttemptCount();
     }
   );
 })();
 
 function createCars(answer) {
   return answer.split(",").map((it) => new Car(it.trim()));
+}
+
+function askAttemptCount() {
+  rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
+    const attemptCount = createAttemptCount(answer);
+    console.log(attemptCount);
+    rl.close();
+  });
+}
+
+function createAttemptCount(answer) {
+  const attemptCount = parseInt(answer);
+  if (!attemptCount || attemptCount < 0) {
+    throw new Error("시도 횟수는 0보다 큰 숫자여야 합니다.");
+  }
+  return attemptCount;
 }
