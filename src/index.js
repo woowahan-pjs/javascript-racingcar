@@ -2,6 +2,7 @@ const readline = require("node:readline");
 const { stdin: input, stdout: output } = require("node:process");
 const Car = require("./Car");
 const AttemptCount = require("./AttemptCount");
+const Racing = require("./Racing");
 const getRandomIntInclusive = require("./getRandomIntInclusive");
 const findWinners = require("./findWinners");
 
@@ -24,26 +25,13 @@ function createCars(answer) {
 function askAttemptCount(cars) {
   rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
     const attemptCount = new AttemptCount(answer);
-    const results = race(cars, attemptCount, () => getRandomIntInclusive(0, 9));
-    printResults(results);
+    const racing = new Racing(cars, attemptCount);
+    const results = racing.race(() => getRandomIntInclusive(0, 9));
     const winners = findWinners(cars);
+    printResults(results);
     printWinners(winners);
     rl.close();
   });
-}
-
-function race(cars, attemptCount, condition) {
-  const results = [];
-  for (let index = 0; index < attemptCount.value; index++) {
-    results.push(cars.map((it) => move(it, condition)));
-  }
-  return results;
-}
-
-function move(car, condition) {
-  car.move(condition);
-  const { name, position } = car;
-  return { name, position };
 }
 
 function printResults(results) {
