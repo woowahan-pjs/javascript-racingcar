@@ -15,3 +15,13 @@ it.each([0, NaN, "", null, undefined])(
     expect(!!parameter).toBe(false);
   }
 );
+
+it("특수값이 포함된 경우 max()", () => {
+  expect(Math.max()).toBe(-Infinity);
+  expect(Math.max(null)).toBe(0);
+  expect(Math.max(NaN)).toBeNaN();
+  expect(Math.max(undefined)).toBeNaN();
+  expect(Math.max(null, 100)).toBe(100);
+  expect(Math.max(NaN, 100)).toBeNaN();
+  expect(Math.max(undefined, 100)).toBeNaN();
+});
