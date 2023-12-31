@@ -4,7 +4,6 @@ const Car = require("./Car");
 const AttemptCount = require("./AttemptCount");
 const Racing = require("./Racing");
 const getRandomIntInclusive = require("./getRandomIntInclusive");
-const findWinners = require("./findWinners");
 
 const rl = readline.createInterface({ input, output });
 
@@ -24,18 +23,17 @@ function createCars(answer) {
 
 function askAttemptCount(cars) {
   rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
-    const attemptCount = new AttemptCount(answer);
-    const racing = new Racing(cars, attemptCount);
+    const racing = new Racing(cars, new AttemptCount(answer));
     const results = racing.race(() => getRandomIntInclusive(0, 9));
-    const winners = findWinners(cars);
-    printResults(results);
-    printWinners(winners);
+    const winners = racing.findWinners();
+    printResults(results, racing.findWinners());
     rl.close();
   });
 }
 
-function printResults(results) {
+function printResults(results, winners) {
   console.log(`\n실행 결과\n${renderResults(results)}`);
+  console.log(`최종 우승자: ${winners.map((it) => it.name).join(", ")}`);
 }
 
 function renderResults(results) {
@@ -48,8 +46,4 @@ function renderLap(lap) {
 
 function renderCar(car) {
   return `${car.name} : ${"-".repeat(car.position)}`;
-}
-
-function printWinners(winners) {
-  console.log(`최종 우승자: ${winners.map((it) => it.name).join(", ")}`);
 }

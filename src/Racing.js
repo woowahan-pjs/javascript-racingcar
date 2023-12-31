@@ -1,3 +1,5 @@
+const { maxByPosition, filterByPosition } = require("./cars");
+
 class Racing {
   #cars;
   #attemptCount;
@@ -19,6 +21,10 @@ class Racing {
     car.move(condition);
     const { name, position } = car;
     return { name, position };
+  }
+
+  findWinners() {
+    return filterByPosition(this.#cars, maxByPosition(this.#cars));
   }
 }
 
