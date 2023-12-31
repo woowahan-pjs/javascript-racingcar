@@ -1,6 +1,7 @@
 const readline = require("node:readline");
 const { stdin: input, stdout: output } = require("node:process");
 const Car = require("./Car");
+const AttemptCount = require("./AttemptCount");
 
 const rl = readline.createInterface({ input, output });
 
@@ -21,16 +22,8 @@ function createCars(answer) {
 
 function askAttemptCount() {
   rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
-    const attemptCount = createAttemptCount(answer);
-    console.log(attemptCount);
+    const attemptCount = new AttemptCount(answer);
+    console.log(attemptCount.value);
     rl.close();
   });
-}
-
-function createAttemptCount(answer) {
-  const attemptCount = parseInt(answer);
-  if (!attemptCount || attemptCount < 0) {
-    throw new Error("시도 횟수는 0보다 큰 숫자여야 합니다.");
-  }
-  return attemptCount;
 }
