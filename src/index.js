@@ -11,8 +11,14 @@ const rl = readline.createInterface({ input, output });
   rl.question(
     "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).\n",
     (answer) => {
-      const cars = createCars(answer);
-      askAttemptCount(cars);
+      let cars;
+      try {
+        cars = createCars(answer);
+        askAttemptCount(cars);
+      } catch (e) {
+        console.error(e.message);
+        askCarNames();
+      }
     }
   );
 })();
@@ -23,11 +29,18 @@ function createCars(answer) {
 
 function askAttemptCount(cars) {
   rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
-    const racing = new Racing(cars, new AttemptCount(answer));
-    const results = racing.race(() => getRandomIntInclusive(0, 9));
-    const winners = racing.findWinners();
-    printResults(results, racing.findWinners());
-    rl.close();
+    let attemptCount;
+    try {
+      attemptCount = new AttemptCount(answer);
+      const racing = new Racing(cars, attemptCount);
+      const results = racing.race(() => getRandomIntInclusive(0, 9));
+      const winners = racing.findWinners();
+      printResults(results, racing.findWinners());
+      rl.close();
+    } catch (e) {
+      console.error(e.message);
+      askAttemptCount(cars);
+    }
   });
 }
 
