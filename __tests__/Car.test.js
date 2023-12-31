@@ -21,3 +21,24 @@ describe("자동차는", () => {
     expect(() => new Car("동해물과백두산이")).toThrow();
   });
 });
+
+describe("자동차 이동은", () => {
+  let car;
+
+  beforeEach(() => {
+    car = new Car("Jason");
+  });
+
+  it.each([4, 5, 6, 7, 8, 9])(
+    "조건이 4 이상이면 움직인다 (%i)",
+    (condition) => {
+      car.move(condition);
+      expect(car.position).toBe(1);
+    }
+  );
+
+  it.each([0, 1, 2, 3])("조건이 4 미만이면 멈춘다 (%i)", (condition) => {
+    car.move(condition);
+    expect(car.position).toBe(0);
+  });
+});
