@@ -23,6 +23,9 @@ class Car {
     ) {
       this.#position++;
     }
+    if (typeof condition === "function" && condition()) {
+      this.#position++;
+    }
   }
 
   get name() {

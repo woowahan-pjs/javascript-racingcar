@@ -34,8 +34,9 @@ function askAttemptCount(cars) {
 function race(cars, attemptCount) {
   console.log("실행 결과");
   for (let index = 0; index < attemptCount.value; index++) {
+    const condition = () => getRandomIntInclusive(0, 9);
     cars.forEach((it) => {
-      it.move(getRandomIntInclusive(0, 9));
+      it.move(condition);
       console.log(renderCar(it));
     });
     console.log();

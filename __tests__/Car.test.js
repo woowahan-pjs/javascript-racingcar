@@ -41,4 +41,9 @@ describe("자동차 이동은", () => {
     car.move(condition);
     expect(car.position).toBe(0);
   });
+
+  it("숫자 이외의 다양한 조건으로 움직일 수 있다", () => {
+    car.move(() => true);
+    expect(car.position).toBe(1);
+  });
 });
