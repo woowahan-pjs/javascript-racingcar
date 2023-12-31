@@ -24,25 +24,44 @@ function createCars(answer) {
 function askAttemptCount(cars) {
   rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
     const attemptCount = new AttemptCount(answer);
-    race(cars, attemptCount);
+    const results = race(cars, attemptCount, () => getRandomIntInclusive(0, 9));
+    printResults(results);
     const winners = findWinners(cars);
-    console.log(`최종 우승자: ${winners.map((it) => it.name)}`);
+    printWinners(winners);
     rl.close();
   });
 }
 
-function race(cars, attemptCount) {
-  console.log("실행 결과");
+function race(cars, attemptCount, condition) {
+  const results = [];
   for (let index = 0; index < attemptCount.value; index++) {
-    const condition = () => getRandomIntInclusive(0, 9);
-    cars.forEach((it) => {
-      it.move(condition);
-      console.log(renderCar(it));
-    });
-    console.log();
+    results.push(cars.map((it) => move(it, condition)));
   }
+  return results;
+}
+
+function move(car, condition) {
+  car.move(condition);
+  const { name, position } = car;
+  return { name, position };
+}
+
+function printResults(results) {
+  console.log(`\n실행 결과\n${renderResults(results)}`);
+}
+
+function renderResults(results) {
+  return `${results.map((it) => renderLap(it)).join("\n")}`;
+}
+
+function renderLap(lap) {
+  return `${lap.map((it) => renderCar(it)).join("\n")}\n`;
 }
 
 function renderCar(car) {
   return `${car.name} : ${"-".repeat(car.position)}`;
+}
+
+function printWinners(winners) {
+  console.log(`최종 우승자: ${winners.map((it) => it.name).join(", ")}`);
 }
