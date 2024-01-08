@@ -1,5 +1,4 @@
 const MAXIMUM_NAME_LENGTH = 5;
-const MINIMUM_MOVEMENT_CONDITION = 4;
 
 class Car {
   #name;
@@ -16,13 +15,10 @@ class Car {
     this.#position = position;
   }
 
+  /**
+   * @param { () => boolean } condition
+   */
   move(condition) {
-    if (
-      typeof condition === "number" &&
-      condition >= MINIMUM_MOVEMENT_CONDITION
-    ) {
-      this.#position++;
-    }
     if (typeof condition === "function" && condition()) {
       this.#position++;
     }

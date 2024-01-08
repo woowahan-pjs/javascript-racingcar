@@ -9,6 +9,9 @@ class Racing {
     this.#attemptCount = attemptCount;
   }
 
+  /**
+   * @param { () => boolean } condition
+   */
   race(condition) {
     const results = [];
     for (let index = 0; index < this.#attemptCount.value; index++) {

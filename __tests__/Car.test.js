@@ -20,30 +20,16 @@ describe("자동차는", () => {
   it("이름이 5글자를 초과할 수 없다", () => {
     expect(() => new Car("동해물과백두산이")).toThrow();
   });
-});
 
-describe("자동차 이동은", () => {
-  let car;
-
-  beforeEach(() => {
-    car = new Car("Jason");
-  });
-
-  it.each([4, 5, 6, 7, 8, 9])(
-    "조건이 4 이상이면 움직인다 (%i)",
-    (condition) => {
-      car.move(condition);
-      expect(car.position).toBe(1);
-    }
-  );
-
-  it.each([0, 1, 2, 3])("조건이 4 미만이면 멈춘다 (%i)", (condition) => {
-    car.move(condition);
-    expect(car.position).toBe(0);
-  });
-
-  it("숫자 이외의 다양한 조건으로 움직일 수 있다", () => {
+  it("움직인다", () => {
+    const car = new Car("Jason");
     car.move(() => true);
     expect(car.position).toBe(1);
+  });
+
+  it("멈춘다", () => {
+    const car = new Car("Jason");
+    car.move(() => false);
+    expect(car.position).toBe(0);
   });
 });

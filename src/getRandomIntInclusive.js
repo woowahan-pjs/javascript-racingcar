@@ -1,4 +1,9 @@
-// https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+/**
+ * https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);

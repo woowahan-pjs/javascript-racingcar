@@ -1,9 +1,13 @@
+// @ts-check
+
 const readline = require("node:readline");
 const { stdin: input, stdout: output } = require("node:process");
 const Car = require("./Car");
 const AttemptCount = require("./AttemptCount");
 const Racing = require("./Racing");
 const getRandomIntInclusive = require("./getRandomIntInclusive");
+
+const MINIMUM_MOVEMENT_CONDITION = 4;
 
 const rl = readline.createInterface({ input, output });
 
@@ -31,7 +35,7 @@ function askAttemptCount(cars) {
     try {
       const attemptCount = new AttemptCount(answer);
       const racing = new Racing(cars, attemptCount);
-      const results = racing.race(() => getRandomIntInclusive(0, 9));
+      const results = racing.race(movable());
       const winners = racing.findWinners();
       printResults(results, winners);
       rl.close();
@@ -40,6 +44,10 @@ function askAttemptCount(cars) {
       askAttemptCount(cars);
     }
   });
+}
+
+function movable() {
+  return () => getRandomIntInclusive(0, 9) >= MINIMUM_MOVEMENT_CONDITION;
 }
 
 function printResults(results, winners) {
