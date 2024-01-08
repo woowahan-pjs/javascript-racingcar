@@ -22,8 +22,7 @@ class Racing {
 
   #move(car, condition) {
     car.move(condition);
-    const { name, position } = car;
-    return { name, position };
+    return { name: car.name, position: car.position };
   }
 
   findWinners() {
