@@ -13,11 +13,9 @@ class Racing {
    * @param { () => boolean } condition
    */
   race(condition) {
-    const results = [];
-    for (let index = 0; index < this.#attemptCount.value; index++) {
-      results.push(this.#cars.map((it) => this.#move(it, condition)));
-    }
-    return results;
+    return Array.from({ length: this.#attemptCount.value }, () =>
+      this.#cars.map((it) => this.#move(it, condition))
+    );
   }
 
   #move(car, condition) {
