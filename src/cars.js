@@ -6,5 +6,7 @@ function filterByPosition(cars, position) {
   return cars.filter((it) => it.position === position);
 }
 
-module.exports.maxByPosition = maxByPosition;
-module.exports.filterByPosition = filterByPosition;
+module.exports = {
+  maxByPosition,
+  filterByPosition,
+};
