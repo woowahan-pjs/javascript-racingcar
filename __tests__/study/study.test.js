@@ -2,7 +2,7 @@
 it.each([false, 0, "", null, undefined, NaN])(
   "조건 비교에서 거짓인 특수값 (%s)",
   (parameter) => {
-    expect(!!parameter).toBe(false);
+    expect(!!parameter).toBeFalsy();
   }
 );
 
