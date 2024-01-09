@@ -11,7 +11,16 @@ const MINIMUM_MOVEMENT_CONDITION = 4;
 
 const rl = readline.createInterface({ input, output });
 
-(function askCarNames() {
+// https://mathieularose.com/main-function-in-node-js
+if (require.main === module) {
+  main();
+}
+
+function main() {
+  askCarNames();
+}
+
+function askCarNames() {
   rl.question(
     "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).\n",
     (answer) => {
@@ -24,7 +33,7 @@ const rl = readline.createInterface({ input, output });
       }
     }
   );
-})();
+}
 
 function createCars(answer) {
   return answer.split(",").map((it) => new Car(it.trim()));
