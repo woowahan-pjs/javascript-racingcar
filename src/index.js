@@ -1,15 +1,12 @@
 // @ts-check
 
-const readline = require("node:readline");
-const { stdin: input, stdout: output } = require("node:process");
-const Car = require("./Car");
 const AttemptCount = require("./AttemptCount");
+const Car = require("./Car");
 const Racing = require("./Racing");
-const getRandomIntInclusive = require("./getRandomIntInclusive");
+const getRandomIntInclusive = require("./utils/getRandomIntInclusive");
+const retryAsking = require("./utils/retryAsking");
 
 const MINIMUM_MOVEMENT_CONDITION = 4;
-
-const rl = readline.createInterface({ input, output });
 
 // https://mathieularose.com/main-function-in-node-js
 if (require.main === module) {
@@ -41,22 +38,6 @@ function askAttemptCount(cars) {
     const results = racing.race(movable());
     const winners = racing.findWinners();
     printResults(results, winners);
-    rl.close();
-  });
-}
-
-/**
- * @param {string} query
- * @param { (answer: string) => void } callback
- */
-function retryAsking(query, callback) {
-  rl.question(query, (answer) => {
-    try {
-      callback(answer);
-    } catch (e) {
-      console.error(`[ERROR] ${e.message}`);
-      retryAsking(query, callback);
-    }
   });
 }
 
