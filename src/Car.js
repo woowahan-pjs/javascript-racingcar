@@ -9,7 +9,7 @@ class Car {
       throw new Error("자동차 이름은 문자로 이루어져야 합니다.");
     }
     if (name.length > MAXIMUM_NAME_LENGTH) {
-      throw new Error("자동차 이름은 5자 이상이어야 합니다.");
+      throw new Error("자동차 이름은 5자 이하여야 합니다.");
     }
     this.#name = name;
     this.#position = position;
