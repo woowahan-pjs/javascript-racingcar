@@ -16,10 +16,10 @@ class Car {
   }
 
   /**
-   * @param { () => boolean } condition
+   * @param { () => boolean } movable
    */
-  move(condition) {
-    if (typeof condition === "function" && condition()) {
+  move(movable) {
+    if (typeof movable === "function" && movable()) {
       this.#position++;
     }
   }

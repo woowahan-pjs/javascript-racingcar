@@ -1,7 +1,11 @@
 const readline = require("node:readline");
 const { stdin: input, stdout: output } = require("node:process");
 
-function askAgain(query, callback) {
+/**
+ * @param {string} query
+ * @param { (answer: string) => void } callback
+ */
+function retryAsking(query, callback) {
   const rl = readline.createInterface({ input, output });
   rl.question(query, (answer) => {
     try {
@@ -9,9 +13,9 @@ function askAgain(query, callback) {
       callback(answer);
     } catch (e) {
       console.error(`[ERROR] ${e.message}`);
-      askAgain(query, callback);
+      retryAsking(query, callback);
     }
   });
 }
 
-module.exports = askAgain;
+module.exports = retryAsking;

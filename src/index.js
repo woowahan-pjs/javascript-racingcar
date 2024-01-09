@@ -3,10 +3,14 @@
 const AttemptCount = require("./AttemptCount");
 const Car = require("./Car");
 const Racing = require("./Racing");
+const { createCars } = require("./cars");
 const getRandomIntInclusive = require("./utils/getRandomIntInclusive");
 const retryAsking = require("./utils/retryAsking");
 
+const CAR_NAME_SEPARATOR = ",";
 const MINIMUM_MOVEMENT_CONDITION = 4;
+const randomMovementStrategy = () =>
+  getRandomIntInclusive(0, 9) >= MINIMUM_MOVEMENT_CONDITION;
 
 // https://mathieularose.com/main-function-in-node-js
 if (require.main === module) {
@@ -19,30 +23,22 @@ function main() {
 
 function askCarNames() {
   retryAsking(
-    "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).\n",
+    `경주할 자동차 이름을 입력하세요(이름은 쉼표(${CAR_NAME_SEPARATOR})를 기준으로 구분).\n`,
     (answer) => {
-      const cars = createCars(answer);
+      const cars = createCars(answer.split(CAR_NAME_SEPARATOR));
       askAttemptCount(cars);
     }
   );
-}
-
-function createCars(answer) {
-  return answer.split(",").map((it) => new Car(it.trim()));
 }
 
 function askAttemptCount(cars) {
   retryAsking("시도할 횟수는 몇 회인가요?\n", (answer) => {
     const attemptCount = new AttemptCount(answer);
     const racing = new Racing(cars, attemptCount);
-    const results = racing.race(movable());
+    const results = racing.race(randomMovementStrategy);
     const winners = racing.findWinners();
     printResults(results, winners);
   });
-}
-
-function movable() {
-  return () => getRandomIntInclusive(0, 9) >= MINIMUM_MOVEMENT_CONDITION;
 }
 
 function printResults(results, winners) {

@@ -10,16 +10,16 @@ class Racing {
   }
 
   /**
-   * @param { () => boolean } condition
+   * @param { () => boolean } movable
    */
-  race(condition) {
+  race(movable) {
     return Array.from({ length: this.#attemptCount.value }, () =>
-      this.#cars.map((it) => this.#move(it, condition))
+      this.#cars.map((it) => this.#move(it, movable))
     );
   }
 
-  #move(car, condition) {
-    car.move(condition);
+  #move(car, movable) {
+    car.move(movable);
     return { name: car.name, position: car.position };
   }
 
