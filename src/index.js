@@ -21,16 +21,11 @@ function main() {
 }
 
 function askCarNames() {
-  rl.question(
+  retryAsking(
     "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분).\n",
     (answer) => {
-      try {
-        const cars = createCars(answer);
-        askAttemptCount(cars);
-      } catch (e) {
-        console.error(`[ERROR] ${e.message}`);
-        askCarNames();
-      }
+      const cars = createCars(answer);
+      askAttemptCount(cars);
     }
   );
 }
@@ -40,17 +35,27 @@ function createCars(answer) {
 }
 
 function askAttemptCount(cars) {
-  rl.question("시도할 횟수는 몇 회인가요?\n", (answer) => {
+  retryAsking("시도할 횟수는 몇 회인가요?\n", (answer) => {
+    const attemptCount = new AttemptCount(answer);
+    const racing = new Racing(cars, attemptCount);
+    const results = racing.race(movable());
+    const winners = racing.findWinners();
+    printResults(results, winners);
+    rl.close();
+  });
+}
+
+/**
+ * @param {string} query
+ * @param { (answer: string) => void } callback
+ */
+function retryAsking(query, callback) {
+  rl.question(query, (answer) => {
     try {
-      const attemptCount = new AttemptCount(answer);
-      const racing = new Racing(cars, attemptCount);
-      const results = racing.race(movable());
-      const winners = racing.findWinners();
-      printResults(results, winners);
-      rl.close();
+      callback(answer);
     } catch (e) {
       console.error(`[ERROR] ${e.message}`);
-      askAttemptCount(cars);
+      retryAsking(query, callback);
     }
   });
 }
