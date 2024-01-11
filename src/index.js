@@ -1,16 +1,12 @@
 // @ts-check
 
 const AttemptCount = require("./AttemptCount");
-const Car = require("./Car");
 const Racing = require("./Racing");
 const { createCars } = require("./cars");
-const getRandomIntInclusive = require("./utils/getRandomIntInclusive");
+const randomMovementStrategy = require("./randomMovementStrategy");
 const retryAsking = require("./utils/retryAsking");
 
 const CAR_NAME_SEPARATOR = ",";
-const MINIMUM_MOVEMENT_CONDITION = 4;
-const randomMovementStrategy = () =>
-  getRandomIntInclusive(0, 9) >= MINIMUM_MOVEMENT_CONDITION;
 
 // https://mathieularose.com/main-function-in-node-js
 if (require.main === module) {
